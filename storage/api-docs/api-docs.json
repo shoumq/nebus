@@ -642,6 +642,15 @@
             }
         }
     },
+    "components": {
+        "securitySchemes": {
+            "Авторизация": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
     "tags": [
         {
             "name": "Деятельности",

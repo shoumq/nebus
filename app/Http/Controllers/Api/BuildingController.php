@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Building;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class BuildingController extends Controller
@@ -33,7 +34,7 @@ class BuildingController extends Controller
      *     )
      * )
      */
-    public function index()
+    public function index(): Collection
     {
         return Building::all();
     }

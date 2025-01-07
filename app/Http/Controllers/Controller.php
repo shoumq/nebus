@@ -8,6 +8,13 @@ namespace App\Http\Controllers;
  *     version="1.0.0",
  *     description=""
  * )
+ *
+ * @OA\SecurityScheme(
+ *     securityScheme="Авторизация",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT"
+ * )
  */
 abstract class Controller
 {

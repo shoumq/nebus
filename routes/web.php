@@ -9,10 +9,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/organizations/building/{buildingId}', [OrganizationController::class, 'indexByBuilding']);
-Route::get('/organizations/activity/{activityId}', [OrganizationController::class, 'indexByActivity']);
-Route::get('/organizations/radius', [OrganizationController::class, 'indexByRadius']);
-Route::get('/organizations/{id}', [OrganizationController::class, 'show']);
-Route::get('/organizations/search/{name}', [OrganizationController::class, 'searchByName']);
-Route::get('/buildings', [BuildingController::class, 'index']);
-Route::get('/activities', [ActivityController::class, 'index']);
+Route::middleware(['api.key'])->group(function () {
+    Route::get('/organizations/building/{buildingId}', [OrganizationController::class, 'indexByBuilding']);
+    Route::get('/organizations/activity/{activityId}', [OrganizationController::class, 'indexByActivity']);
+    Route::get('/organizations/radius', [OrganizationController::class, 'indexByRadius']);
+    Route::get('/organizations/{id}', [OrganizationController::class, 'show']);
+    Route::get('/organizations/search/{name}', [OrganizationController::class, 'searchByName']);
+    Route::get('/buildings', [BuildingController::class, 'index']);
+    Route::get('/activities', [ActivityController::class, 'index']);
+});

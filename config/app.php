@@ -123,4 +123,5 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'bearer_token' => env('API_KEY', 'Kw1mQX4dPxqSedBT_Xb3fPTSL_fwZ5gVbm9Kd0Bm1_YFHL1VBi'),
 ];
