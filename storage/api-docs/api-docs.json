@@ -6,8 +6,98 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/activities": {
+            "get": {
+                "tags": [
+                    "Деятельности"
+                ],
+                "summary": "Получить все виды деятельности",
+                "operationId": "7d1827a371eef7125b3c9a9de264ec3a",
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Еда"
+                                            },
+                                            "parent_id": {
+                                                "type": "integer",
+                                                "example": null,
+                                                "nullable": true
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Виды деятельности не найдены"
+                    }
+                }
+            }
+        },
+        "/buildings": {
+            "get": {
+                "tags": [
+                    "Здания"
+                ],
+                "summary": "Получить все здания",
+                "operationId": "60cc2510e686d245d04a0768d7afc247",
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "address": {
+                                                "type": "string",
+                                                "example": "г. Москва, ул. Ленина 1, офис 3"
+                                            },
+                                            "latitude": {
+                                                "type": "string",
+                                                "example": "55.75580000"
+                                            },
+                                            "longitude": {
+                                                "type": "string",
+                                                "example": "37.61730000"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Здания не найдены"
+                    }
+                }
+            }
+        },
         "/organizations/building/{buildingId}": {
             "get": {
+                "tags": [
+                    "Организации"
+                ],
                 "summary": "Получить организации по ID здания",
                 "operationId": "3a494125abed56884ac37696169e00b7",
                 "parameters": [
@@ -111,6 +201,9 @@
         },
         "/organizations/activity/{activityId}": {
             "get": {
+                "tags": [
+                    "Организации"
+                ],
                 "summary": "Получить организации по ID деятельности",
                 "operationId": "d073284996b36f32412f10a54ea23cc0",
                 "parameters": [
@@ -214,6 +307,9 @@
         },
         "/organizations/radius": {
             "get": {
+                "tags": [
+                    "Организации"
+                ],
                 "summary": "Получить организации по радиусу",
                 "operationId": "4d519641f83dac666becd1782df58867",
                 "parameters": [
@@ -338,6 +434,9 @@
         },
         "/organizations/{id}": {
             "get": {
+                "tags": [
+                    "Организации"
+                ],
                 "summary": "Получить организацию по ID",
                 "operationId": "3b641b1670623b572d4c510217881de0",
                 "parameters": [
@@ -435,6 +534,126 @@
                     }
                 }
             }
+        },
+        "/organizations/search/{name}": {
+            "get": {
+                "tags": [
+                    "Организации"
+                ],
+                "summary": "Поиск организаций по имени",
+                "operationId": "9ca0e77ea72a41653f26d53e30c47d82",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Имя организации",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "ООО “Рога и Копыта”"
+                                            },
+                                            "building_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "phone_numbers": {
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "number": {
+                                                            "type": "string",
+                                                            "example": "2-222-222"
+                                                        },
+                                                        "organization_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "activities": {
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Еда"
+                                                        },
+                                                        "parent_id": {
+                                                            "type": "integer",
+                                                            "example": null,
+                                                            "nullable": true
+                                                        },
+                                                        "pivot": {
+                                                            "properties": {
+                                                                "organization_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "activity_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Организации не найдены"
+                    }
+                }
+            }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "Деятельности",
+            "description": "Деятельности"
+        },
+        {
+            "name": "Здания",
+            "description": "Здания"
+        },
+        {
+            "name": "Организации",
+            "description": "Организации"
+        }
+    ]
 }

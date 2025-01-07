@@ -15,6 +15,7 @@ class OrganizationController extends Controller
      * @OA\Get(
      *     path="/organizations/building/{buildingId}",
      *     summary="Получить организации по ID здания",
+     *     tags={"Организации"},
      *     @OA\Parameter(
      *         name="buildingId",
      *         in="path",
@@ -70,6 +71,7 @@ class OrganizationController extends Controller
      * @OA\Get(
      *     path="/organizations/activity/{activityId}",
      *     summary="Получить организации по ID деятельности",
+     *     tags={"Организации"},
      *     @OA\Parameter(
      *         name="activityId",
      *         in="path",
@@ -133,6 +135,7 @@ class OrganizationController extends Controller
      * @OA\Get(
      *     path="/organizations/radius",
      *     summary="Получить организации по радиусу",
+     *     tags={"Организации"},
      *     @OA\Parameter(
      *         name="lat",
      *         in="query",
@@ -216,6 +219,7 @@ class OrganizationController extends Controller
      * @OA\Get(
      *     path="/organizations/{id}",
      *     summary="Получить организацию по ID",
+     *     tags={"Организации"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -267,12 +271,63 @@ class OrganizationController extends Controller
             : response()->json(['error' => 'Organization not found'], 404);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/organizations/search/{name}",
+     *     summary="Поиск организаций по имени",
+     *     tags={"Организации"},
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="path",
+     *         required=true,
+     *         description="Имя организации",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успешный ответ",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="ООО “Рога и Копыта”"),
+     *                 @OA\Property(property="building_id", type="integer", example=1),
+     *                 @OA\Property(property="phone_numbers", type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="number", type="string", example="2-222-222"),
+     *                         @OA\Property(property="organization_id", type="integer", example=1)
+     *                     )
+     *                 ),
+     *                 @OA\Property(property="activities", type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="name", type="string", example="Еда"),
+     *                         @OA\Property(property="parent_id", type="integer", nullable=true, example=null),
+     *                         @OA\Property(property="pivot", type="object",
+     *                             @OA\Property(property="organization_id", type="integer", example=1),
+     *                             @OA\Property(property="activity_id", type="integer", example=1)
+     *                         )
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Организации не найдены"
+     *     )
+     * )
+     */
     public function searchByName($name)
     {
         return Organization::where('name', 'like', '%' . $name . '%')->with('phoneNumbers', 'activities')->get();
     }
 
-    private function getAllChildActivities($activity)
+    private function getAllChildActivities($activity): array
     {
         $activities = [$activity->id];
         if ($activity->children) {
